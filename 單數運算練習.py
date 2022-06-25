@@ -46,7 +46,7 @@ def 單數運算練習(運算='X', 列印=False):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("operator", help="運算")
+    parser.add_argument("operator", help="運算類型")
     parser.add_argument("--print", action='store_true', help="列印")
     args = parser.parse_args()
     if args.print:
