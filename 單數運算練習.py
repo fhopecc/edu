@@ -1,7 +1,7 @@
 from pathlib import Path
 wdir = Path(__file__).parent
-
-def 單數運算練習(運算='X'):
+wordexe = 'C:\Program Files\Microsoft Office\Office14\WINWORD.EXE'
+def 單數運算練習(運算='X', 列印=False):
     運算名稱 = {'X':'乘法', '+':'加法'}[運算]
     table = [(x,y) for x in range(1,10) for y in range(1,10)]
     from random import shuffle
@@ -21,6 +21,8 @@ def 單數運算練習(運算='X'):
             c.text = (f'{n1}+{n2}=(    )')
         else:
             raise ValueError('不支援【{運算}】運算題目！')
+    doc.add_paragraph()
+    doc.add_paragraph()
     doc.add_paragraph('本次錯誤題數：_____題，使用秒數：____秒')
     doc.add_page_break()
     doc.add_paragraph('答案', style='Heading 1')
@@ -36,11 +38,16 @@ def 單數運算練習(運算='X'):
     fn = wdir / f'九九{運算名稱}練習.docx'
     doc.save(fn)
     from os import system
-    system(f'start {fn}')
+    cmd = f'start {fn}'
+    if 列印:
+        cmd = f'"{wordexe}" {fn} /mFilePrintDefault /mFileExit /q /n'
+    system(cmd)
 
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("operator", help="運算")
+    parser.add_argument("--print", action='store_true', help="列印")
     args = parser.parse_args()
-    單數運算練習(args.operator)
+    if args.print:
+        單數運算練習(args.operator, 列印=True)
