@@ -2,10 +2,11 @@ from pathlib import Path
 wdir = Path(__file__).parent
 wordexe = 'C:\Program Files\Microsoft Office\Office14\WINWORD.EXE'
 
-def 單數運算評量(運算='X', 列印=None, 固定左數:int=0):
+def 單數運算評量(運算='X', 列印=None, 固定左數=None):
     運算名稱 = {'X':'乘法', '+':'加法'}[運算]
     if 固定左數:
-        table = [(int(固定左數), y) for y in range(1,10)]
+        固定左數 = int(固定左數)
+        table = [(固定左數, y) for y in range(1,10)]
         table.extend(table*8)
     else:
         table = [(x,y) for x in range(1,10) for y in range(1,10)]
@@ -17,7 +18,7 @@ def 單數運算評量(運算='X', 列印=None, 固定左數:int=0):
         f = wdir / '模版.docx'
         doc = Document(f)
         title = f"九九{運算名稱}評量"
-        if 固定左數>0:
+        if 固定左數:
             title += f'，固定左數為{固定左數}' 
             if 運算名稱 == '加法':
                 title += f'，口訣{固定左數}缺{10-固定左數}' 
@@ -70,4 +71,4 @@ if __name__ == '__main__':
     parser.add_argument("--print", help="列印份數")
     parser.add_argument("--fix", help="固定左數")
     args = parser.parse_args()
-    單數運算評量(args.operator, 列印=args.print, 固定左數=int(args.fix))
+    單數運算評量(args.operator, 列印=args.print, 固定左數=args.fix)
